@@ -1,0 +1,36 @@
+[
+    {
+        "model": "levelupapi.game",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "type_of_game": 2,
+            "name_of_game": "checkers",
+            "skill_level": "beginner",
+            "how_many_players": "two"
+        }
+    },
+    {
+        "model": "levelupapi.game",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "type_of_game": 1,
+            "name_of_game": "uno",
+            "skill_level": "beginner",
+            "how_many_players": "eight"
+        }
+    },
+    {
+        "model": "levelupapi.game",
+        "pk": 3,
+        "fields": {
+            "user": 1,
+            "type_of_game": 3,
+            "name_of_game": "battleship",
+            "skill_level": "intermediate",
+            "how_many_players": "four"
+        
+        }
+    }
+]
