@@ -5,7 +5,8 @@
         "fields": {
             "game": 1,
             "host": 1,
-            "datetime": "2021-04-06 06:00:00",
+            "date": "2021-04-06",
+            "time": "06:00:00",
             "description": "thinker",
             "number_of_people": "two",
             "attendees": [1]
@@ -17,7 +18,8 @@
         "fields": {
             "game": 2,
             "host": 1,
-            "datetime": "2021-04-08 06:00:00",
+            "date": "2021-04-06",
+            "time": "06:00:00",
             "description": "thinker",
             "number_of_people": "two",
             "attendees": [1]
@@ -29,7 +31,8 @@
         "fields": {
             "game": 3,
             "host": 1,
-            "datetime": "2021-04-07 06:00:00",
+            "datetime": "2021-04-06",
+            "time": "06:00:00",
             "description": "thinker",
             "number_of_people": "two",
             "attendees": [1]
