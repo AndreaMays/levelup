@@ -71,6 +71,7 @@ class EventsViews(ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
+        #line 75 - 79 are document strings
         """Handle DELETE requests for a single game
 
         Returns:
@@ -105,16 +106,6 @@ class EventsViews(ViewSet):
             events, many=True, context={'request': request})
         return Response(serializer.data)
 
-class EventSerializer(serializers.ModelSerializer):
-    """JSON serializer for events"""
-    organizer = EventGamerSerializer(many=False)
-    game = GameSerializer(many=False)
-
-    class Meta:
-        model = Event
-        fields = ('id', 'game', 'organizer',
-                  'description', 'date', 'time')
-
 class EventUserSerializer(serializers.ModelSerializer):
     """JSON serializer for event organizer's related Django user"""
     class Meta:
@@ -135,3 +126,13 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level')
+
+class EventSerializer(serializers.ModelSerializer):
+    """JSON serializer for events"""
+    organizer = EventGamerSerializer(many=False)
+    game = GameSerializer(many=False)
+
+    class Meta:
+        model = Event
+        fields = ('id', 'game', 'organizer',
+                  'description', 'date', 'time')
