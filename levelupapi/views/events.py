@@ -71,6 +71,7 @@ class EventsViews(ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
+        #line 75 - 79 are document strings
         """Handle DELETE requests for a single game
 
         Returns:
@@ -105,16 +106,6 @@ class EventsViews(ViewSet):
             events, many=True, context={'request': request})
         return Response(serializer.data)
 
-class EventSerializer(serializers.ModelSerializer):
-    """JSON serializer for events"""
-    organizer = EventGamerSerializer(many=False)
-    game = GameSerializer(many=False)
-
-    class Meta:
-        model = Event
-        fields = ('id', 'game', 'organizer',
-                  'description', 'date', 'time')
-
 class EventUserSerializer(serializers.ModelSerializer):
     """JSON serializer for event organizer's related Django user"""
     class Meta:
@@ -134,4 +125,17 @@ class GameSerializer(serializers.ModelSerializer):
     """JSON serializer for games"""
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level')
+        fields = ('id', 'name_of_game', 'maker', 'how_many_players', 'skill_level', 'type_of_game')
+
+class EventSerializer(serializers.ModelSerializer):
+    """JSON serializer for events"""
+    organizer = EventGamerSerializer(many=False)
+    game = GameSerializer(many=False)
+
+    class Meta:
+        model = Event
+        fields = ('id', 'game', 'organizer',
+                  'description', 'dateTime')
+#Before we were doing "depth = 1" to get more stuff back but now we are doing "fields" to pull back exactly what we want
+#and leave off password/email etc. This is how to work around getting back everything you don't want to show to the client
+#like if you were to use "depth=2"
