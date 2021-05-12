@@ -125,7 +125,7 @@ class GameSerializer(serializers.ModelSerializer):
     """JSON serializer for games"""
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level')
+        fields = ('id', 'name_of_game', 'maker', 'how_many_players', 'skill_level', 'type_of_game')
 
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events"""
@@ -135,4 +135,7 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'game', 'organizer',
-                  'description', 'date', 'time')
+                  'description', 'dateTime')
+#Before we were doing "depth = 1" to get more stuff back but now we are doing "fields" to pull back exactly what we want
+#and leave off password/email etc. This is how to work around getting back everything you don't want to show to the client
+#like if you were to use "depth=2"
