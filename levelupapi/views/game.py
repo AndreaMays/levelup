@@ -1,4 +1,5 @@
 """View module for handling requests about games"""
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from rest_framework import status
 from django.http import HttpResponseServerError
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from levelupapi.models import Game, GameType, Gamer
+from django.contrib.auth.models import User
 
 class GamesView(ViewSet):
     """Level up games"""
@@ -29,13 +31,13 @@ class GamesView(ViewSet):
         game.maker = request.data["maker"]
         game.how_many_players = request.data["numberOfPlayers"]
         game.skill_level = request.data["skillLevel"]
-        game.gamer = gamer
+        game.gamer = gamer        
 
         # Use the Django ORM to get the record from the database
         # whose `id` is what the client passed as the
         # `gameTypeId` in the body of the request.
         gametype = GameType.objects.get(pk=request.data["gameTypeId"])
-        game.gametype = gametype
+        game.type_of_game = gametype
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
@@ -88,7 +90,7 @@ class GamesView(ViewSet):
         game.gamer = gamer
 
         gametype = GameType.objects.get(pk=request.data["gameTypeId"])
-        game.gametype = gametype
+        game.type_of_game = gametype
         game.save()
 
         # 204 status code means everything worked but the
