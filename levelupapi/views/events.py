@@ -95,11 +95,19 @@ class EventsViews(ViewSet):
             Response -- JSON serialized list of events
         """
         events = Event.objects.all()
+        # Get the current authenticated user
+        gamer = Gamer.objects.get(user=request.auth.user)
+        events = Event.objects.all()
+
+        # Set the `joined` property on every event
+        for event in events:
+         # Check to see if the gamer is in the attendees list on the event
+            event.joined = gamer in event.attendees.all()
 
         # Support filtering events by game
         game = self.request.query_params.get('gameId', None)
         if game is not None:
-            events = events.filter(game__id=game)
+            events = events.filter(game__id=type)
 
         serializer = EventSerializer(
             events, many=True, context={'request': request})
@@ -121,7 +129,7 @@ class EventsViews(ViewSet):
                     {'message': 'Event does not exist.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-                
+
         # A gamer wants to sign up for an event
             if request.method == "POST":
                 try:
@@ -171,7 +179,9 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'game', 'organizer',
-                  'description', 'dateTime')
+          'description', 'dateTime', 'attendees',
+          'joined')
+    
 #Before we were doing "depth = 1" to get more stuff back but now we are doing "fields" to pull back exactly what we want
 #and leave off password/email etc. This is how to work around getting back everything you don't want to show to the client
 #like if you were to use "depth=2"
