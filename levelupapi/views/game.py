@@ -83,6 +83,10 @@ class GamesView(ViewSet):
         # creating a new instance of Game, get the game record
         # from the database whose primary key is `pk`
         game = Game.objects.get(pk=pk)
+
+        # Hannah did the following code so that games can't be "hijacked" in postman
+        # if gamer is not game.gamer:
+        #   return Response({}, status=status.HTTP_403_FORBIDDEN)
         game.name_of_game = request.data["name_of_game"]
         game.maker = request.data["maker"]
         game.how_many_players = request.data["how_many_players"]
@@ -91,7 +95,11 @@ class GamesView(ViewSet):
 
         gametype = GameType.objects.get(pk=request.data["gameTypeId"])
         game.type_of_game = gametype
-        game.save()
+
+        try:
+            game.save()
+        except ValidationError as ex:
+            return Response({ 'reason': ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
         # 204 status code means everything worked but the
         # server is not sending back any data in the response
